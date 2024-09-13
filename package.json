@@ -1,0 +1,30 @@
+{
+  "name": " R-chat-app",
+  "version": "1.0.0",
+  "description": "This repository contains the chat application developed as project.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "serve": "nodemon backend/server-starter.js",
+    "completed": "node backend/server-completed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MARKASCHARAN/R-char-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MARKASCHARAN/R-chat-app/issues"
+  },
+  "homepage": "https://github.com/MARKASCHARAN/R-chat-app#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.0",
+    "unique-names-generator": "^4.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
