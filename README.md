@@ -31,9 +31,11 @@ WebSockets vs. APIs
 WebSockets: Provide two-way communication between the client and server, allowing real-time data exchange. Ideal for chat applications where instant updates are essential.
 APIs (HTTP/REST): Utilize HTTP requests and responses for communication. Suitable for non-real-time interactions but involves overhead with each request and response cycle.
 Architecture
-Frontend: The user interface is built with HTML, CSS, and Tailwind CSS, offering a responsive and visually appealing design.
-Backend: Node.js and Express handle the server-side logic. Socket.io manages real-time communication between users, ensuring messages are delivered instantly and chat history is maintained.
-Installation
+## Frontend: 
+The user interface is built with HTML, CSS, and Tailwind CSS, offering a responsive and visually appealing design.
+## Backend: 
+Node.js and Express handle the server-side logic. Socket.io manages real-time communication between users, ensuring messages are delivered instantly and chat history is maintained.
+## Installation
 To set up the project on your local machine, follow these steps:
 
 Ensure Node.js is Installed:
@@ -47,7 +49,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/chat-application.git
+git clone https://github.com/MARKASCHARAN/R-chat-app.git
 Navigate to the Project Directory:
 
 bash
@@ -67,7 +69,7 @@ Open Your Browser:
 
 Navigate to http://localhost:3000 to start using the chat application.
 
-Usage
+## Usage
 Once the server is running, you can open multiple browser tabs or windows to test real-time messaging. Each tab will represent a different user, and you can see messages being exchanged instantly.
 
 
