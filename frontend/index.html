@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Chat App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="shortcut icon" type="image" href="pixelcut-export-rpLZ5pfke-transformed.png">
+  </head>
+
+  <body class="flex justify-center mt-14 h-screen">
+    <div class="w-full max-w-lg">
+      <div class="bg-black text-white rounded-t-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">Chat Window</h2>
+
+        <div class="flex flex-col space-y-4 chat-window"></div>
+      </div>
+
+      <div class="bg-indigo-700 rounded-b-lg shadow-md p-5">
+
+        <h1 class="text-2xl text-white font-semibold mb-4"></h1>
+
+        <form class="chat">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-comment mr-2"></i>
+            <input
+              type="text"
+              class="border border-gray-300 rounded-lg px-4 py-2 flex-grow"
+              placeholder="Type your message here"
+              id="message"
+            />
+
+            <button
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg ml-2"
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

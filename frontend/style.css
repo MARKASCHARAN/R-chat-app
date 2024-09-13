@@ -1,0 +1,58 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #03065b;
+}
+.chat-window {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.6) rgba(0, 0, 0, 0.5);
+  align-self: center;
+}
+
+.chat-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+  background: rgba(1, 25, 74, 0.5); 
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+  background-color: rgba(168, 6, 6, 0.6);
+  border-radius: 10px;
+}
+.chat-window .message {
+  max-width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+.message.self {
+  background-color: #010a1a; 
+  color: white;
+  align-self: flex-end;
+}
+
+.message.other {
+  background-color: #000000; 
+  color: white;
+  align-self: flex-start;
+}
+
+button:hover {
+  transition: background-color 0.2s ease-in-out;
+}
+
+input:focus {
+  outline: none;
+  border-color: #000000; 
+  box-shadow: 0 0 5px rgba(0, 9, 23, 0.6); 
+}
+
