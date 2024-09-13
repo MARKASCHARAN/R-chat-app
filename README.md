@@ -26,7 +26,7 @@ Backend:
 Node.js
 Express
 Socket.io
-How It Works
+## How It Works
 WebSockets vs. APIs
 WebSockets: Provide two-way communication between the client and server, allowing real-time data exchange. Ideal for chat applications where instant updates are essential.
 APIs (HTTP/REST): Utilize HTTP requests and responses for communication. Suitable for non-real-time interactions but involves overhead with each request and response cycle.
