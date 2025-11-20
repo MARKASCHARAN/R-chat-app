@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
@@ -7,9 +7,9 @@ import './App.css';
 function App() {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
-  const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState(null);
+  const socketRef = useRef(null);
 
   useEffect(() => {
     // Connect to the backend server
@@ -44,7 +44,7 @@ function App() {
       }
     });
 
-    setSocket(socketInstance);
+    socketRef.current = socketInstance;
 
     return () => {
       socketInstance.disconnect();
@@ -52,8 +52,8 @@ function App() {
   }, []);
 
   const handleSendMessage = (message) => {
-    if (socket && isConnected) {
-      socket.emit('post-message', { message });
+    if (socketRef.current && isConnected) {
+      socketRef.current.emit('post-message', { message });
     }
   };
 

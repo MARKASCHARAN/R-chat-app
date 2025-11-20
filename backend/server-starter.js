@@ -3,6 +3,11 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
@@ -15,7 +20,13 @@ const io = new Server(server, {
 });
 
 app.use(cors());
-app.use(express.static(process.cwd() + "/frontend"));
+
+// Serve React app in production or legacy frontend in development
+const clientBuildPath = path.join(__dirname, "../client/dist");
+const legacyFrontendPath = path.join(__dirname, "../frontend");
+
+app.use(express.static(clientBuildPath));
+app.use(express.static(legacyFrontendPath));
 
 const chatHistory = [];
 
@@ -47,11 +58,21 @@ io.on("connection", function callback(socket) {
 });
 
 app.get("/", (req, res) => {
-  return res.sendFile(process.cwd() + "/frontend/index.html");
+  // Try to serve the React app first, fall back to legacy frontend
+  const reactIndexPath = path.join(clientBuildPath, "index.html");
+  const legacyIndexPath = path.join(legacyFrontendPath, "index.html");
+  
+  res.sendFile(reactIndexPath, (err) => {
+    if (err) {
+      res.sendFile(legacyIndexPath);
+    }
+  });
 });
 
-server.listen(3000, () => {
-  console.log("listening on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`listening on http://localhost:${PORT}`);
     
 });
 
