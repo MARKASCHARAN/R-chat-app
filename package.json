@@ -6,7 +6,12 @@
   "type": "module",
   "scripts": {
     "serve": "nodemon backend/server-starter.js",
-    "completed": "node backend/server-completed.js"
+    "completed": "node backend/server-completed.js",
+    "client": "cd client && npm run dev",
+    "server": "nodemon backend/server-starter.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm run build",
+    "start": "node backend/server-starter.js"
   },
   "repository": {
     "type": "git",
@@ -20,11 +25,13 @@
   },
   "homepage": "https://github.com/MARKASCHARAN/R-chat-app#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "socket.io": "^4.7.0",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.4"
   }
 }
