@@ -3,51 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Random Chat App</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Anonymous Random Chat</title>
+
+    <!-- Tailwind -->
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <link rel="shortcut icon" type="image" href="pixelcut-export-rpLZ5pfke-transformed.png">
+
+    <!-- Socket.io from backend -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script defer src="script.js"></script>
   </head>
 
-  <body class="flex justify-center mt-14 h-screen">
-    <div class="w-full max-w-lg">
-      <div class="bg-black text-white rounded-t-lg shadow-md p-6">
-        <h2 class="text-xl font-semibold mb-4">Chat Window</h2>
-
-        <div class="flex flex-col space-y-4 chat-window"></div>
+  <body class="h-screen bg-gray-900 flex items-center justify-center">
+    <div
+      class="w-full max-w-2xl h-[90vh] bg-gray-800 rounded-2xl shadow-xl flex flex-col overflow-hidden"
+    >
+      <!-- Header -->
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-gray-700 border-b border-gray-600"
+      >
+        <div>
+          <h2 class="text-lg font-semibold text-white">Random Chat Room</h2>
+          <p class="text-xs text-gray-300">
+            You are chatting anonymously with others.
+          </p>
+        </div>
+        <div
+          class="px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-semibold"
+          id="username-badge"
+        >
+          ...
+        </div>
       </div>
 
-      <div class="bg-indigo-700 rounded-b-lg shadow-md p-5">
+      <!-- Messages -->
+      <div
+        id="messages"
+        class="flex-1 bg-gray-800 px-4 py-3 space-y-3 overflow-y-auto"
+      ></div>
 
-        <h1 class="text-2xl text-white font-semibold mb-4"></h1>
-
-        <form class="chat">
-          <div class="flex items-center mb-4">
-            <i class="fas fa-comment mr-2"></i>
-            <input
-              type="text"
-              class="border border-gray-300 rounded-lg px-4 py-2 flex-grow"
-              placeholder="Type your message here"
-              id="message"
-            />
-
-            <button
-              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg ml-2"
-            >
-              Send
-            </button>
-          </div>
-        </form>
+      <!-- Typing indicator -->
+      <div
+        id="typing-indicator"
+        class="px-4 text-xs text-gray-300 italic hidden"
+      >
+        Someone is typing...
       </div>
+
+      <!-- Input -->
+      <form
+        id="chat-form"
+        class="bg-gray-700 px-4 py-3 flex items-center space-x-3 border-t border-gray-600"
+      >
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type a message..."
+          class="flex-1 bg-gray-600 text-white px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm"
+          autocomplete="off"
+        />
+        <button
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-semibold text-sm"
+        >
+          Send
+        </button>
+      </form>
     </div>
-    <script src="script.js"></script>
   </body>
 </html>

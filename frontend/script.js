@@ -1,46 +1,103 @@
-const chat = document.querySelector(".chat");
-const chatWindow = document.querySelector(".chat-window");
-let chatHistory = [];
-
+// frontend/script.js
 const socket = io();
 
-socket.on("receive-messages", (data) => {
-  const { chatHistory, username } = data || {};
-  if (username !== undefined) updateUsername(username);
-  render(chatHistory);
+const messagesEl = document.getElementById("messages");
+const formEl = document.getElementById("chat-form");
+const inputEl = document.getElementById("message-input");
+const usernameBadgeEl = document.getElementById("username-badge");
+const typingIndicatorEl = document.getElementById("typing-indicator");
+
+let myUsername = "";
+let typingTimeout = null;
+
+// Initial data from server
+socket.on("init", (data) => {
+  myUsername = data.username;
+  usernameBadgeEl.textContent = myUsername;
+
+  messagesEl.innerHTML = "";
+  (data.messages || []).forEach(addMessage);
+  scrollToBottom();
 });
 
-chat.addEventListener("submit", function (e) {
+// New chat message from anyone
+socket.on("chat-message", (msg) => {
+  addMessage(msg);
+  scrollToBottom();
+});
+
+// System messages like "X joined"
+socket.on("system-message", (data) => {
+  addSystemMessage(data.text);
+  scrollToBottom();
+});
+
+// Typing indicator from others
+socket.on("typing", () => {
+  typingIndicatorEl.classList.remove("hidden");
+
+  if (typingTimeout) clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    typingIndicatorEl.classList.add("hidden");
+  }, 1200);
+});
+
+// Send message
+formEl.addEventListener("submit", (e) => {
   e.preventDefault();
-  sendMessage(chat.elements.message.value);
-  chat.elements.message.value = "";
+  const text = inputEl.value.trim();
+  if (!text) return;
+
+  socket.emit("chat-message", text);
+  inputEl.value = "";
 });
 
-async function sendMessage(message) {
-  socket.emit("post-message", {
-    message,
-  });
-}
+// Emit typing event on input
+inputEl.addEventListener("input", () => {
+  socket.emit("typing");
+});
 
-function render(chatHistory) {
-  const html = chatHistory
-    .map(function ({ username, message }) {
-      return messageTemplate(username, message);
-    })
-    .join("\n");
-  chatWindow.innerHTML = html;
-}
+// Helpers
+function addMessage({ username, text, timestamp }) {
+  const isMe = username === myUsername;
+  const timeStr = timestamp ? new Date(timestamp).toLocaleTimeString() : "";
 
-function updateUsername(username) {
-  document.querySelector("h1").innerHTML = username;
-}
+  const wrapper = document.createElement("div");
+  wrapper.className = `flex ${isMe ? "justify-end" : "justify-start"}`;
 
-function messageTemplate(username, message) {
-  return `<div class="flex items-center">
-            <div class="w-5 h-5 bg-green-400 text-white rounded-full flex items-center justify-center mr-2">
-              <i class="fas fa-user"></i>
-            </div>
-        <p class="text-gray-100 text-lg">${username}: ${message}</p>
+  const bubble = document.createElement("div");
+  bubble.className =
+    "max-w-xs px-3 py-2 rounded-2xl text-white text-sm shadow " +
+    (isMe
+      ? "bg-indigo-600 rounded-br-none"
+      : "bg-gray-700 rounded-bl-none");
+
+  bubble.innerHTML = `
+    <div class="flex items-center justify-between space-x-2">
+      <span class="font-semibold text-xs opacity-80">${username}</span>
+      <span class="text-[10px] opacity-70">${timeStr}</span>
     </div>
-    `;
+    <div class="mt-1 break-words">${escapeHtml(text)}</div>
+  `;
+
+  wrapper.appendChild(bubble);
+  messagesEl.appendChild(wrapper);
+}
+
+function addSystemMessage(text) {
+  const el = document.createElement("div");
+  el.className = "text-center text-xs text-gray-400 italic";
+  el.textContent = text;
+  messagesEl.appendChild(el);
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
