@@ -1,4 +1,3 @@
-// frontend/script.js
 const socket = io();
 
 const messagesEl = document.getElementById("messages");
@@ -20,19 +19,18 @@ socket.on("init", (data) => {
   scrollToBottom();
 });
 
-// New chat message from anyone
 socket.on("chat-message", (msg) => {
   addMessage(msg);
   scrollToBottom();
 });
 
-// System messages like "X joined"
+
 socket.on("system-message", (data) => {
   addSystemMessage(data.text);
   scrollToBottom();
 });
 
-// Typing indicator from others
+
 socket.on("typing", () => {
   typingIndicatorEl.classList.remove("hidden");
 
@@ -42,7 +40,7 @@ socket.on("typing", () => {
   }, 1200);
 });
 
-// Send message
+
 formEl.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = inputEl.value.trim();
@@ -57,7 +55,7 @@ inputEl.addEventListener("input", () => {
   socket.emit("typing");
 });
 
-// Helpers
+
 function addMessage({ username, text, timestamp }) {
   const isMe = username === myUsername;
   const timeStr = timestamp ? new Date(timestamp).toLocaleTimeString() : "";
